@@ -1,3 +1,5 @@
+console.log('inside public')
+
 const CACHE_NAME = 'shirorororo';
 
 this.addEventListener('install', (event) => {
@@ -12,15 +14,20 @@ this.addEventListener('install', (event) => {
         '/static/css/main.css', // Add CSS files
         '/static/images/logo.png', // Add image files
         '/static/fonts/font.woff', // Add font files
+        // add other routes to cache
       ]);
     })
   );
 });
 
 this.addEventListener('fetch', (event) => {
-  event.respondWith(
-    caches.match(event.request).then((response) => {
-      return response || fetch(event.request);
-    })
-  );
+  console.log('yohoho', navigator.onLine)
+  if(!navigator.onLine){
+    console.log('offline')
+    event.respondWith(
+      caches.match(event.request).then((response) => {
+        return response || fetch(event.request);
+      })
+    );
+  }
 });
