@@ -1,9 +1,12 @@
 import { FC, useEffect, useState } from "react";
 import indexedDb from '../../services/dbInstance';
+import { fetchUsers } from "../../services/user.service";
+
+type Mode = 'online' | 'offline';
 
 const Users: FC = () => {
   const [users, setUsers] = useState<any[]>([]);
-  const [mode, setMode] = useState<string>('online');
+  const [mode, setMode] = useState<Mode>('online');
 
   // indexed db
   const [cnt, setCnt] = useState<number>(0);
@@ -14,26 +17,18 @@ const Users: FC = () => {
   }, [])
 
   useEffect(() => {
-    const url = 'https://random-data-api.com/api/v2/users?size=2';
-    fetch(url)
-      .then(res => res.json())
-      .then(res => {
-        setUsers(res)
-        setMode('online');
-        localStorage.setItem('users', JSON.stringify(res));
-      })
-      .catch(res => {
-        setMode('offline')
-        const data = JSON.parse(localStorage.getItem('users') || '')
-        if(!!data) setUsers(data)
-      })
+    const fetchUsersWrapper = async () => {
+      const res = await fetchUsers();
+      setUsers(res);
+    }
+
+    fetchUsersWrapper();
   }, []) 
 
   async function addData() {
     const dataToAdd = { id: cnt, name: 'Shivesh Tiwari', age: 23 };
     const success = await indexedDb.putValue('myTable', dataToAdd);
     if (success) {
-      console.log('Data added successfully');
       getData();
     } else {
       console.error('Failed to add data');
@@ -62,7 +57,7 @@ const Users: FC = () => {
 
         <div>
           {
-            users2.map(user => (
+            (users2 || []).map(user => (
               <div key={`users-2-${user.id}`}>
                 {user.id}-{user.name}
 
@@ -78,7 +73,7 @@ const Users: FC = () => {
         { 
           users.map(user => (
             <div key={user.id}>
-              {user.first_name} {user.last_name}
+              {user.name} : {user.username}
             </div>
           ))
         }

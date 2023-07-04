@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { FC } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Users from './pages/users';
 
-function App() {
+
+const App: FC = () => {
   return (
-    <div className="App">
+    <div className="App App-header">
       <Users />
     </div>
-  );
+  )
 }
-
 
 export default App;
