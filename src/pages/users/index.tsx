@@ -49,30 +49,31 @@ const Users: FC = () => {
 
   return (
     <div>
-      <h1>yohohoho - {mode}</h1>
+      <h1 className={`uppercase text-xl`}>yohohoho - <span className={`${mode === 'offline' ? 'text-red-500' : 'text-green-500'}`}>{mode}</span></h1>
 
-      <div>
-        <button onClick={addData}>Add</button>
-        <p style={{ fontSize: 24, fontWeight: '800' }}>indexedDB users</p>
-
+      
+      <div className="border-2 border-t-0 border-indigo-500 rounded-lg px-2">
+        <div className="flex items-center justify-between">
+          <p className="capitalize text-xl text-slate-100">indexedDB users</p>
+          <button className="button bg-orange-600 px-2 py-1 rounded-lg my-2" onClick={addData}>Add</button>
+        </div>
         <div>
           {
             (users2 || []).map(user => (
-              <div key={`users-2-${user.id}`}>
+              <div key={`users-2-${user.id}`} className="flex items-center justify-between my-2">
                 {user.id}-{user.name}
-
-                <button onClick={() => deleteData(user.id)} style={{ margin: '10px' }}>X</button>
+                <button onClick={() => deleteData(user.id)} className="ml-4 button bg-red-800 rounded-xl px-2.5 flex items-center pb-1">x</button>
               </div>
             ))
           }
         </div>
       </div>
 
-      <div>
-        <p style={{ fontSize: 24, fontWeight: '800' }}>Api fetched users</p>
+      <div className="border-2 border-t-0 border-indigo-500 rounded-lg px-2 mt-5">
+        <p className="capitalize text-xl text-slate-100">Api fetched users</p>
         { 
           users.map(user => (
-            <div key={user.id}>
+            <div key={user.id} className="my-1">
               {user.name} : {user.username}
             </div>
           ))
