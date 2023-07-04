@@ -1,12 +1,13 @@
 import { FC, useEffect, useState } from "react";
 import indexedDb from '../../services/dbInstance';
 import { fetchUsers } from "../../services/user.service";
+import { useOnlineStatus } from "../hooks/useOnlineStatus";
 
 type Mode = 'online' | 'offline';
 
 const Users: FC = () => {
   const [users, setUsers] = useState<any[]>([]);
-  const [mode, setMode] = useState<Mode>('online');
+  const mode: Mode = useOnlineStatus() === true ? 'online' : 'offline';
 
   // indexed db
   const [cnt, setCnt] = useState<number>(0);
@@ -50,7 +51,6 @@ const Users: FC = () => {
   return (
     <div>
       <h1 className={`uppercase text-xl`}>yohohoho - <span className={`${mode === 'offline' ? 'text-red-500' : 'text-green-500'}`}>{mode}</span></h1>
-
       
       <div className="border-2 border-t-0 border-indigo-500 rounded-lg px-2">
         <div className="flex items-center justify-between">
@@ -59,7 +59,7 @@ const Users: FC = () => {
         </div>
         <div>
           {
-            (users2 || []).map(user => (
+            users2.map(user => (
               <div key={`users-2-${user.id}`} className="flex items-center justify-between my-2">
                 {user.id}-{user.name}
                 <button onClick={() => deleteData(user.id)} className="ml-4 button bg-red-800 rounded-xl px-2.5 flex items-center pb-1">x</button>
@@ -72,13 +72,14 @@ const Users: FC = () => {
       <div className="border-2 border-t-0 border-indigo-500 rounded-lg px-2 mt-5">
         <p className="capitalize text-xl text-slate-100">Api fetched users</p>
         { 
-          users.map(user => (
+          (users || []).map(user => (
             <div key={user.id} className="my-1">
               {user.name} : {user.username}
             </div>
           ))
         }
       </div>
+
     </div>
   )
 }
