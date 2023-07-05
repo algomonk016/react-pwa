@@ -6,13 +6,17 @@ import reportWebVitals from './reportWebVitals';
 import swDev from './swDev';
 import { BrowserRouter } from "react-router-dom";
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+        <App />
+      <ToastContainer />
     </BrowserRouter>
   </React.StrictMode>
 );
