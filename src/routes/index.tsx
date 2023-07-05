@@ -6,8 +6,10 @@ import Posts from "pages/posts";
 const AppRoutes: FC = () => {
     return (
         <Routes>
-            <Route path="/" element={<Users />} />
-            <Route path="posts" element={<Posts />} />
+            <Route path="/react-pwa">
+                <Route index element={<Users />} />
+                <Route path="posts" element={<Posts />} />
+            </Route>
 
             {/* Using path="*"" means "match anything", so this route
             acts like a catch-all for URLs that we don't have explicit

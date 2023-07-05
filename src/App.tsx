@@ -40,8 +40,8 @@ const App: FC = () => {
       <div className={HeaderClass}>
         <p className={OfflineClass}>You're offline</p>
         <div className='w-32 flex justify-between mr-auto p-2 '>
-          <Link to={'/'} className={LinkClass}>Users</Link>
-          <Link to={'/posts'} className={LinkClass}>Posts</Link>
+          <Link to={'/react-pwa'} className={LinkClass}>Users</Link>
+          <Link to={'/react-pwa/posts'} className={LinkClass}>Posts</Link>
         </div>
       </div>
       <div className='relative top-16'>
