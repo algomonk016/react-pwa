@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import indexedDb from '../../services/dbInstance';
 import { fetchUsers } from "../../services/user.service";
-import { useOnlineStatus } from "../hooks/useOnlineStatus";
+import { useOnlineStatus } from "../../hooks/useOnlineStatus";
 
 type Mode = 'online' | 'offline';
 
