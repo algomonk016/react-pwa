@@ -20,12 +20,20 @@ class IndexedDb {
           }
         },
       });
+  
+      // Verify that all specified object stores exist
+      const missingObjectStores = tableNames.filter(tableName => !this.db!.objectStoreNames.contains(tableName));
+      if (missingObjectStores.length > 0) {
+        throw new Error(`Object stores not found: ${missingObjectStores.join(', ')}`);
+      }
+  
       return true;
     } catch (error) {
       console.error('Failed to open database:', error);
       return false;
     }
   }
+  
 
   public async getValue<T>(tableName: string, id: number): Promise<T | undefined> {
     if (!this.db) {

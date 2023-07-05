@@ -1,7 +1,6 @@
 import { FC, useEffect, useState } from "react";
-import indexedDb from '../../services/dbInstance';
+import indexedDb from 'services/indexedDb';
 import { fetchUsers } from "./user.service";
-import { useOnlineStatus } from "../../hooks/useOnlineStatus";
 
 const Users: FC = () => {
   const [users, setUsers] = useState<any[]>([]);

@@ -1,9 +1,7 @@
 import { FC } from "react";
-import { Routes, Route, Outlet, Link } from "react-router-dom";
-import Layout from "../layout";
-import Users from "../pages/users";
-import Posts from "../pages/posts";
-import NotFound from "../pages/NotFound";
+import { Routes, Route } from "react-router-dom";
+import Users from "pages/users";
+import Posts from "pages/posts";
 
 const AppRoutes: FC = () => {
     return (

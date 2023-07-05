@@ -1,6 +1,6 @@
 import { Post } from ".";
-import { getData, postData } from "../../services/api";
-import indexedDb from "../../services/dbInstance";
+import { getData, postData } from "services/api";
+import indexedDb from "services/indexedDb";
 
 async function getIndexedDb(id: number) {
     const res = await indexedDb.getValue<any>('postsApi', id);

@@ -1,7 +1,5 @@
 // import { Stores, addData } from "./db";
 
-import { useOnlineStatus } from "../hooks/useOnlineStatus";
-
 export const Regex = {
   id: /^[a-z0-9]+$/,
   mobile: /^([0-9]{10})$/,
