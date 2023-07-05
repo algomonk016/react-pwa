@@ -1,6 +1,8 @@
 import { FC, useEffect, useState } from "react";
 import { addPost, fetchPosts } from "./post.service";
 import { ApiResponse } from "services/api";
+import { toast } from "react-toastify";
+import { openToast } from "utils/toast";
 
 export type Post = {
     title: string;
@@ -46,8 +48,8 @@ const Posts: FC = () => {
         e.preventDefault();
         if(!newPost.title || !newPost.body) return;
         const response = await addPost(newPost);
-        if(response.status === 'offline') {
-            
+        if(response?.mode === 'offline') {
+            openToast('Will be updated later', 'warn');
         }
     }
 

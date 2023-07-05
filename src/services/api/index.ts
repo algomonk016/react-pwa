@@ -1,5 +1,5 @@
 import { Mode } from "App";
-import indexedDb, { IndexDbTable } from "services/indexedDb";
+import indexedDb, { IndexDbTable, addPostRequestToIndexedDb, getValueIndexedDb, postValueIndexedDb } from "services/indexedDb";
 
 export const Regex = {
   id: /^[a-z0-9]+$/,
@@ -46,18 +46,6 @@ export function clearAccessToken() {
   localStorage.removeItem('access_token');
 }
 
-export async function getValueIndexedDb(table: IndexDbTable, id: number) {
-  const res = await indexedDb.getValue<any>(table, id);
-  return res;
-}
-
-async function postValueIndexedDb(table: IndexDbTable, dataToAdd: any) {
-  const success = await indexedDb.putValue(table, dataToAdd);
-  if(success) {
-    console.log('api cached');
-  }
-}
-
 export const getData = async (url = '', options: APIOptions = {}): Promise<ApiResponse> => {
     const finalUrl = `${basePath}${url}`;
     
@@ -87,15 +75,29 @@ export const getData = async (url = '', options: APIOptions = {}): Promise<ApiRe
     return { mode: 'online', data }
 }
 
-export async function postData(url = '', payload: any, options: APIOptions = {}) {
+export const postData = async (url = '', payload: any, options: APIOptions = {}): Promise<ApiResponse> => {
   const finalUrl = `${basePath}${url}`;
+
+  if(!navigator.onLine) {
+    const success = await addPostRequestToIndexedDb(url, payload, options);
+    return {
+      mode: 'offline',
+      data: {
+        cached: success,
+        message: 'will be called once connection is regained'
+      }
+    }
+  }
   
-  return fetch(finalUrl, {
+  const response = await fetch(finalUrl, {
     method: 'POST',
     body: JSON.stringify(payload),
     headers: {
       'Content-type': 'application/json; charset=UTF-8',
     },
   })
-    .then(res => res.json())
+
+  const data = await response.json();
+
+  return { mode: 'online', data: data || { staus: 'success' } };
 }
