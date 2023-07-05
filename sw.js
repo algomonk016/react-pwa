@@ -16,7 +16,9 @@ this.addEventListener('install', (event) => {
         '/static/fonts/font.woff', // Add font files
         // add other routes to cache
         '/posts',
-        '/404'
+        '/404',
+        '/react-pwa',
+        '/react-pwa/posts'
       ]);
     })
   );
