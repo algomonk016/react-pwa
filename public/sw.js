@@ -15,13 +15,14 @@ this.addEventListener('install', (event) => {
         '/static/images/logo.png', // Add image files
         '/static/fonts/font.woff', // Add font files
         // add other routes to cache
+        '/posts',
+        '/404'
       ]);
     })
   );
 });
 
 this.addEventListener('fetch', (event) => {
-  console.log('yohoho', navigator.onLine)
   if(!navigator.onLine){
     console.log('offline')
     event.respondWith(

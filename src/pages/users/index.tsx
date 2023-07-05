@@ -1,13 +1,10 @@
 import { FC, useEffect, useState } from "react";
 import indexedDb from '../../services/dbInstance';
-import { fetchUsers } from "../../services/user.service";
+import { fetchUsers } from "./user.service";
 import { useOnlineStatus } from "../../hooks/useOnlineStatus";
-
-type Mode = 'online' | 'offline';
 
 const Users: FC = () => {
   const [users, setUsers] = useState<any[]>([]);
-  const mode: Mode = useOnlineStatus() === true ? 'online' : 'offline';
 
   // indexed db
   const [cnt, setCnt] = useState<number>(0);
@@ -50,8 +47,6 @@ const Users: FC = () => {
 
   return (
     <div>
-      <h1 className={`uppercase text-xl`}>yohohoho - <span className={`${mode === 'offline' ? 'text-red-500' : 'text-green-500'}`}>{mode}</span></h1>
-      
       <div className="border-2 border-t-0 border-indigo-500 rounded-lg px-2">
         <div className="flex items-center justify-between">
           <p className="capitalize text-xl text-slate-100">indexedDB users</p>

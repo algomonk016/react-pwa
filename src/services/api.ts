@@ -42,3 +42,16 @@ export async function getData(url = '', options: APIOptions = {}) {
     return fetch(finalUrl)
       .then(res => res.json())
 }
+
+export async function postData(url = '', payload: any,options: APIOptions = {}) {
+  const finalUrl = `${basePath}${url}`;
+  
+  return fetch(finalUrl, {
+    method: 'POST',
+    body: JSON.stringify(payload),
+    headers: {
+      'Content-type': 'application/json; charset=UTF-8',
+    },
+  })
+    .then(res => res.json())
+}

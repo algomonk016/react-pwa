@@ -1,5 +1,5 @@
-import { getData } from "./api";
-import indexedDb from "./dbInstance";
+import { getData } from "../../services/api";
+import indexedDb from "../../services/dbInstance";
 
 async function getIndexedDb() {
     const res = await indexedDb.getValue<any>('usersApi', 1);
