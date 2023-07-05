@@ -1,22 +1,24 @@
 import { FC, useEffect, useState } from "react";
 import indexedDb from 'services/indexedDb';
 import { fetchUsers } from "./user.service";
+import { ApiResponse } from "services/api";
+import { Mode } from "App";
 
 const Users: FC = () => {
   const [users, setUsers] = useState<any[]>([]);
+  const [apiResponseType, setApiResponseType] = useState<Mode>('online');
 
   // indexed db
   const [cnt, setCnt] = useState<number>(0);
   const [users2, setUsers2] = useState<any[]>([]);
 
-  useEffect(() => {
-    getData();
-  }, [])
+  useEffect(() => { getData(); }, [])
 
   useEffect(() => {
     const fetchUsersWrapper = async () => {
-      const res = await fetchUsers();
-      setUsers(res);
+      const res: ApiResponse = await fetchUsers();
+      setApiResponseType(res.mode);
+      setUsers(res.data);
     }
 
     fetchUsersWrapper();
@@ -64,7 +66,7 @@ const Users: FC = () => {
       </div>
 
       <div className="border-2 border-t-0 border-indigo-500 rounded-lg px-2 mt-5">
-        <p className="capitalize text-xl text-slate-100">Api fetched users</p>
+        <p className="capitalize text-xl text-slate-100">Api fetched users : {apiResponseType}</p>
         { 
           (users || []).map(user => (
             <div key={user.id} className="my-1">

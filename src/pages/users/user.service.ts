@@ -1,28 +1,22 @@
-import { getData } from "services/api";
-import indexedDb from "services/indexedDb";
+import { ApiResponse, getData } from "services/api";
+import { IndexDbTable } from "services/indexedDb";
 
-async function getIndexedDb() {
-    const res = await indexedDb.getValue<any>('usersApi', 1);
-    return res.data;
-}
-
-async function addData(dataToAdd: any) {
-    const success = await indexedDb.putValue('usersApi', dataToAdd);
-    if(success) {
-        console.log('api cached');
-    }
-}
-
-export const fetchUsers = async () => {
+export const fetchUsers = async (): Promise<ApiResponse> => {
     try {
-        const res = await getData('users');
-        const toOffline = { id: 1, data: res }
-        addData(toOffline);
+        const res = await getData('users', {
+            cache: {
+                indexedDb: true,
+                dbDetails: {
+                    tableName: IndexDbTable.users,
+                    id: 1
+                }
+            }
+        });
         return res;
     } catch(error: any) {
-        if(!navigator.onLine) {
-            return await getIndexedDb();
+        return {
+            mode: 'online',
+            data: error
         }
-        console.log('error', error);
     }
 }

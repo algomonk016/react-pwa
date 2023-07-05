@@ -45,7 +45,7 @@ class IndexedDb {
     const store = tx.objectStore(tableName);
     try {
       const result = await store.get(id);
-      // console.log('Get Data ', JSON.stringify(result));
+      console.log('Get Data ', result);
       return result;
     } catch (error) {
       console.error(`Failed to get value from ${tableName}:`, error);
@@ -63,7 +63,7 @@ class IndexedDb {
     const store = tx.objectStore(tableName);
     try {
       const result = await store.getAll();
-      // console.log('Get All Data', JSON.stringify(result));
+      console.log('Get All Data', result);
       return result;
     } catch (error) {
       console.error(`Failed to get all values from ${tableName}:`, error);
@@ -81,7 +81,7 @@ class IndexedDb {
     const store = tx.objectStore(tableName);
     try {
       await store.put(value);
-      // console.log('Put Data ', JSON.stringify(value));
+      console.log('Put Data ', value);
       return true;
     } catch (error) {
       console.error(`Failed to put value in ${tableName}:`, error);
@@ -100,7 +100,7 @@ class IndexedDb {
     try {
       for (const value of values) {
         await store.put(value);
-        console.log('Put Bulk Data ', JSON.stringify(value));
+        console.log('Put Bulk Data ', value);
       }
       return await this.getAllValue(tableName);
     } catch (error) {
@@ -124,7 +124,7 @@ class IndexedDb {
         return false;
       }
       await store.delete(id);
-      // console.log('Deleted Data', id);
+      console.log('Deleted Data', id);
       return true;
     } catch (error) {
       console.error(`Failed to delete value from ${tableName}:`, error);

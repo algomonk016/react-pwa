@@ -1,30 +1,24 @@
 import { Post } from ".";
-import { getData, postData } from "services/api";
-import indexedDb from "services/indexedDb";
+import { ApiResponse, getData, postData } from "services/api";
+import { IndexDbTable } from "services/indexedDb";
 
-async function getIndexedDb(id: number) {
-    const res = await indexedDb.getValue<any>('postsApi', id);
-    return res.data;
-}
-
-async function addData(dataToAdd: any) {
-    const success = await indexedDb.putValue('postsApi', dataToAdd);
-    if(success) {
-        console.log('api cached');
-    }
-}
-
-export const fetchPosts = async () => {
+export const fetchPosts = async (): Promise<ApiResponse> => {
     try {
-        const res = await getData('posts');
-        const toOffline = { id: 1, data: res }
-        addData(toOffline);
+        const res = await getData('posts', {
+            cache: {
+                indexedDb: true,
+                dbDetails: {
+                    tableName: IndexDbTable.posts,
+                    id: 1
+                }
+            }
+        });
         return res;
     } catch(error: any) {
-        if(!navigator.onLine) {
-            return await getIndexedDb(1);
+        return {
+            mode: 'online',
+            data: error
         }
-        console.log('error', error);
     }
 }
 
@@ -33,11 +27,6 @@ export const addPost = async (post: Post) => {
         const res = await postData('posts', post);
         return res;
     } catch(error) {
-        if(!navigator.onLine) {
-            return {
-                status: 'offline',
-                message: 'will be added once reconnected to internet'
-            }
-        }
+        console.log('error', error)
     }
 }

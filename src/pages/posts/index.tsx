@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from "react";
-import { addPost, fetchPosts} from "./post.service";
+import { addPost, fetchPosts } from "./post.service";
+import { ApiResponse } from "services/api";
 
 export type Post = {
     title: string;
@@ -26,9 +27,8 @@ const Posts: FC = () => {
 
     useEffect(() => {
         const fetchPostsWrapper = async () => {
-            const res = await fetchPosts();
-            console.log(res.filter((post: any) => post.userId === userId));
-            setPosts(res);
+            const res: ApiResponse = await fetchPosts();
+            setPosts(res.data);
         }
 
         fetchPostsWrapper();
