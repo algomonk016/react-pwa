@@ -66,7 +66,7 @@ export const getData = async (url = '', options: APIOptions = {}): Promise<ApiRe
     if(!navigator.onLine) {
       const hasCache = !!cache && cache.indexedDb && !!cache.dbDetails && !!cache.dbDetails?.tableName;
       if(hasCache) {
-        const data: any = await getValueIndexedDb(cache.dbDetails!.tableName, cache.dbDetails!.id);
+        const { data }: any = await getValueIndexedDb(cache.dbDetails!.tableName, cache.dbDetails!.id);
         return { mode: 'offline', data };
       } else {
         return {
